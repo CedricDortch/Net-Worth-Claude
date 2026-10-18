@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(.venv/bin/python -m networth:*)",
+      "Bash(.venv/bin/pytest)",
+      "Bash(.venv/bin/pytest:*)",
+      "Bash(.venv/bin/pip install -r requirements.txt)"
+    ]
+  }
+}

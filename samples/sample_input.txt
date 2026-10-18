@@ -1,0 +1,29 @@
+Age: 29
+State: Texas
+Credit Score: 712
+
+ASSETS
+Bank Account 1: $30,000
+Car 1: $2,000
+401k 1: $45,000
+
+DEBTS
+Student Loan 1: $18,000 (5.5%)
+Credit Card 1: $4,200 (24.9%)
+
+NET WORTH HISTORY
+2021: $8,000
+2022: $19,000
+2023: $31,000
+2024: $42,000
+2025: $54,800
+
+INCOME HISTORY
+2021: $48,000
+2022: $52,000
+2023: $58,000
+2024: $63,000
+2025: $67,000
+
+EXPENSES
+Monthly Expenses: $3,200

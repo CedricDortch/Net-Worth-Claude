@@ -1,0 +1,17 @@
+{
+  "age": 29,
+  "state": "TX",
+  "credit_score": 712,
+  "assets": [
+    {"label": "Bank Account 1", "value": 30000},
+    {"label": "Car 1", "value": 2000},
+    {"label": "401k 1", "value": 45000}
+  ],
+  "debts": [
+    {"label": "Student Loan 1", "value": 18000, "interest_rate": 5.5},
+    {"label": "Credit Card 1", "value": 4200, "interest_rate": 24.9}
+  ],
+  "net_worth_history": {"2021": 8000, "2022": 19000, "2023": 31000, "2024": 42000, "2025": 54800},
+  "income_history": {"2021": 48000, "2022": 52000, "2023": 58000, "2024": 63000, "2025": 67000},
+  "monthly_expenses": 3200
+}

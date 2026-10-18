@@ -1,0 +1,7 @@
+Section,Label,Value,InterestRate,Category,Owner
+Profile,Name,Jordan Example,,,
+Profile,Age,29,,,
+Profile,State,TX,,,
+Asset,Bank Account 1,30000,,,
+Asset,Account Number,44218890012,,,
+Asset,Car 1,2000,,,Jordan

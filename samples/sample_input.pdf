@@ -1,0 +1,62 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Length 645 >>
+stream
+BT /F1 11 Tf 14 TL 50 760 Td
+(Age: 29) Tj T*
+(State: Texas) Tj T*
+(Credit Score: 712) Tj T*
+() Tj T*
+(ASSETS) Tj T*
+(Bank Account 1: $30,000) Tj T*
+(Car 1: $2,000) Tj T*
+(401k 1: $45,000) Tj T*
+() Tj T*
+(DEBTS) Tj T*
+(Student Loan 1: $18,000 \(5.5%\)) Tj T*
+(Credit Card 1: $4,200 \(24.9%\)) Tj T*
+() Tj T*
+(NET WORTH HISTORY) Tj T*
+(2021: $8,000) Tj T*
+(2022: $19,000) Tj T*
+(2023: $31,000) Tj T*
+(2024: $42,000) Tj T*
+(2025: $54,800) Tj T*
+() Tj T*
+(INCOME HISTORY) Tj T*
+(2021: $48,000) Tj T*
+(2022: $52,000) Tj T*
+(2023: $58,000) Tj T*
+(2024: $63,000) Tj T*
+(2025: $67,000) Tj T*
+() Tj T*
+(EXPENSES) Tj T*
+(Monthly Expenses: $3,200) Tj T*
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000000311 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1007
+%%EOF

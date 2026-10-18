@@ -1,0 +1,17 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Generated reports contain real financial numbers
+index.html
+reports/
+
+# Real personal data. Keep your own files in private/ or name them *_private.*;
+# only the made-up files in samples/ belong in the repository.
+private/
+*_private.*
+
+# OS
+.DS_Store

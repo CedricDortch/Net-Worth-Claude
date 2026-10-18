@@ -1,0 +1,14 @@
+ALL PERSONAL INFORMATION IN THIS FILE IS FAKE. IT EXISTS TO TEST THE SECURITY CHECK.
+
+Name: Jordan Example
+SSN: 123-45-6789
+DOB: 04/12/1991
+Email: jordan.example@example.com
+Phone: (555) 867-5309
+Address: 742 Evergreen Terrace, Springfield, TX 75001
+
+ASSETS
+Checking account # 4421-889-0012: $30,000
+Routing number 021000021
+Visa card 4111 1111 1111 1111
+Car 1 (VIN 1HGCM82633A004352, plate ABC-1234): $2,000

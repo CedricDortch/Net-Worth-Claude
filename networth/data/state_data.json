@@ -1,0 +1,929 @@
+{
+  "sources": [
+    {
+      "name": "U.S. Census Bureau, State-Level Wealth, Asset Ownership, & Debt of Households Tables: 2024 (Survey of Income and Program Participation, survey year 2025)",
+      "url": "https://www2.census.gov/programs-surveys/demo/tables/wealth/2023/wealth-asset-ownership/state_wealth_tables_dy2024.xlsx",
+      "page": "https://www.census.gov/data/tables/2024/demo/wealth/state-wealth-asset-ownership.html",
+      "fields": [
+        "median_net_worth (Table 1)",
+        "mean_net_worth (Table 5)",
+        "net_worth_distribution (Table 4)",
+        "households_thousands (Table 3)"
+      ],
+      "dollars": "2024 dollars",
+      "released": "2026-07-15"
+    },
+    {
+      "name": "U.S. Bureau of Economic Analysis, Regional Price Parities by State (SARPP), all items, 2024",
+      "url": "https://apps.bea.gov/regional/zip/SARPP.zip",
+      "fields": [
+        "rpp (United States = 100)"
+      ],
+      "released": "2026-02-19"
+    },
+    {
+      "name": "U.S. Census Bureau, Median Household Income by State (CPS ASEC), via FRED, series MEHOINUS<ST>A646N (current dollars)",
+      "url": "https://fred.stlouisfed.org/series/MEHOINUSA646N",
+      "fields": [
+        "median_household_income",
+        "income_year"
+      ]
+    }
+  ],
+  "retrieved": "2026-10-18",
+  "notes": [
+    "null = suppressed by the Census Bureau (too few observations): '(B)' or '(D)' in the source.",
+    "net_worth_distribution maps a dollar bound to the cumulative % of households below it ('0' = zero or negative). Bounds whose sub-ranges were suppressed are omitted.",
+    "SIPP (Census) and SCF (Federal Reserve) measure wealth differently; compare a state only with the national figures in this file, not with age_percentiles.json."
+  ],
+  "national": {
+    "name": "United States",
+    "median_net_worth": 204900.0,
+    "mean_net_worth": 609300.0,
+    "net_worth_distribution": {
+      "0": 11.3,
+      "5000": 17.5,
+      "10000": 20.8,
+      "25000": 26.3,
+      "50000": 31.7,
+      "100000": 38.8,
+      "250000": 53.2,
+      "500000": 68.4
+    },
+    "households_thousands": 134400.0,
+    "median_household_income": 87460.0,
+    "income_year": 2025,
+    "rpp": 100.0
+  },
+  "states": {
+    "AL": {
+      "name": "Alabama",
+      "median_net_worth": 128100.0,
+      "mean_net_worth": 343800.0,
+      "net_worth_distribution": {
+        "0": 13.5,
+        "5000": 23.9,
+        "10000": 26.0,
+        "25000": 30.9,
+        "50000": 34.7,
+        "100000": 46.3,
+        "250000": 66.8,
+        "500000": 83.5
+      },
+      "households_thousands": 2101.0,
+      "median_household_income": 68410.0,
+      "income_year": 2025,
+      "rpp": 88.823
+    },
+    "AK": {
+      "name": "Alaska",
+      "median_net_worth": null,
+      "mean_net_worth": null,
+      "net_worth_distribution": null,
+      "households_thousands": 228.0,
+      "median_household_income": 102500.0,
+      "income_year": 2025,
+      "rpp": 102.359
+    },
+    "AZ": {
+      "name": "Arizona",
+      "median_net_worth": 294000.0,
+      "mean_net_worth": 640000.0,
+      "net_worth_distribution": {
+        "0": 10.6,
+        "5000": 12.7,
+        "10000": 18.1,
+        "25000": 22.2,
+        "50000": 26.5,
+        "100000": 31.9,
+        "250000": 45.3,
+        "500000": 66.9
+      },
+      "households_thousands": 2963.0,
+      "median_household_income": 86570.0,
+      "income_year": 2025,
+      "rpp": 100.677
+    },
+    "AR": {
+      "name": "Arkansas",
+      "median_net_worth": 72050.0,
+      "mean_net_worth": 243000.0,
+      "net_worth_distribution": {
+        "0": 15.7,
+        "5000": 28.7,
+        "10000": 31.6,
+        "25000": 38.4,
+        "50000": 45.4,
+        "100000": 53.1,
+        "250000": 74.1,
+        "500000": 83.2
+      },
+      "households_thousands": 1244.0,
+      "median_household_income": 68060.0,
+      "income_year": 2025,
+      "rpp": 86.937
+    },
+    "CA": {
+      "name": "California",
+      "median_net_worth": 299100.0,
+      "mean_net_worth": 869600.0,
+      "net_worth_distribution": {
+        "0": 7.3,
+        "5000": 13.6,
+        "10000": 17.3,
+        "25000": 23.5,
+        "50000": 30.0,
+        "100000": 36.9,
+        "250000": 47.3,
+        "500000": 58.7
+      },
+      "households_thousands": 14420.0,
+      "median_household_income": 100800.0,
+      "income_year": 2025,
+      "rpp": 110.72
+    },
+    "CO": {
+      "name": "Colorado",
+      "median_net_worth": 385200.0,
+      "mean_net_worth": 868400.0,
+      "net_worth_distribution": {
+        "0": 9.0,
+        "5000": 12.0,
+        "10000": 14.2,
+        "25000": 20.8,
+        "50000": 30.3,
+        "100000": 35.1,
+        "250000": 43.8,
+        "500000": 55.8
+      },
+      "households_thousands": 2423.0,
+      "median_household_income": 102500.0,
+      "income_year": 2025,
+      "rpp": 103.052
+    },
+    "CT": {
+      "name": "Connecticut",
+      "median_net_worth": 264200.0,
+      "mean_net_worth": 586100.0,
+      "net_worth_distribution": {
+        "0": 12.6,
+        "25000": 27.0,
+        "100000": 34.9,
+        "500000": 66.2
+      },
+      "households_thousands": 1534.0,
+      "median_household_income": 101400.0,
+      "income_year": 2025,
+      "rpp": 103.61
+    },
+    "DE": {
+      "name": "Delaware",
+      "median_net_worth": null,
+      "mean_net_worth": null,
+      "net_worth_distribution": null,
+      "households_thousands": 346.0,
+      "median_household_income": 99800.0,
+      "income_year": 2025,
+      "rpp": 99.808
+    },
+    "DC": {
+      "name": "District of Columbia",
+      "median_net_worth": null,
+      "mean_net_worth": null,
+      "net_worth_distribution": null,
+      "households_thousands": 423.0,
+      "median_household_income": 107600.0,
+      "income_year": 2025,
+      "rpp": 109.901
+    },
+    "FL": {
+      "name": "Florida",
+      "median_net_worth": 224000.0,
+      "mean_net_worth": 637200.0,
+      "net_worth_distribution": {
+        "0": 11.6,
+        "5000": 15.6,
+        "10000": 19.5,
+        "25000": 26.5,
+        "50000": 31.7,
+        "100000": 37.9,
+        "250000": 51.8,
+        "500000": 69.8
+      },
+      "households_thousands": 9637.0,
+      "median_household_income": 77920.0,
+      "income_year": 2025,
+      "rpp": 103.414
+    },
+    "GA": {
+      "name": "Georgia",
+      "median_net_worth": 204800.0,
+      "mean_net_worth": 479200.0,
+      "net_worth_distribution": {
+        "0": 11.6,
+        "5000": 15.8,
+        "10000": 19.0,
+        "25000": 25.8,
+        "50000": 32.1,
+        "100000": 40.2,
+        "250000": 53.7,
+        "500000": 73.3
+      },
+      "households_thousands": 3938.0,
+      "median_household_income": 82100.0,
+      "income_year": 2025,
+      "rpp": 96.293
+    },
+    "HI": {
+      "name": "Hawaii",
+      "median_net_worth": 643300.0,
+      "mean_net_worth": 1104000.0,
+      "net_worth_distribution": {
+        "0": 4.1,
+        "25000": 14.7,
+        "100000": 19.3,
+        "500000": 48.8
+      },
+      "households_thousands": 556.0,
+      "median_household_income": 105100.0,
+      "income_year": 2025,
+      "rpp": 109.951
+    },
+    "ID": {
+      "name": "Idaho",
+      "median_net_worth": 310300.0,
+      "mean_net_worth": 695200.0,
+      "net_worth_distribution": {
+        "0": 5.6,
+        "25000": 16.7,
+        "100000": 30.6,
+        "500000": 61.8
+      },
+      "households_thousands": 744.0,
+      "median_household_income": 87840.0,
+      "income_year": 2025,
+      "rpp": 95.494
+    },
+    "IL": {
+      "name": "Illinois",
+      "median_net_worth": 253500.0,
+      "mean_net_worth": 703500.0,
+      "net_worth_distribution": {
+        "0": 12.8,
+        "5000": 18.7,
+        "10000": 22.7,
+        "25000": 24.2,
+        "50000": 26.8,
+        "100000": 34.7,
+        "250000": 49.2,
+        "500000": 66.1
+      },
+      "households_thousands": 4983.0,
+      "median_household_income": 93270.0,
+      "income_year": 2025,
+      "rpp": 99.958
+    },
+    "IN": {
+      "name": "Indiana",
+      "median_net_worth": 189700.0,
+      "mean_net_worth": 421700.0,
+      "net_worth_distribution": {
+        "0": 8.8,
+        "5000": 14.8,
+        "10000": 16.4,
+        "25000": 24.0,
+        "50000": 30.4,
+        "100000": 36.6,
+        "250000": 56.4,
+        "500000": 74.4
+      },
+      "households_thousands": 2815.0,
+      "median_household_income": 76180.0,
+      "income_year": 2025,
+      "rpp": 93.329
+    },
+    "IA": {
+      "name": "Iowa",
+      "median_net_worth": 150800.0,
+      "mean_net_worth": 513900.0,
+      "net_worth_distribution": {
+        "0": 13.3,
+        "5000": 19.9,
+        "10000": 24.5,
+        "25000": 33.2,
+        "50000": 38.6,
+        "100000": 46.6,
+        "250000": 61.0,
+        "500000": 73.5
+      },
+      "households_thousands": 1386.0,
+      "median_household_income": 81890.0,
+      "income_year": 2025,
+      "rpp": 87.762
+    },
+    "KS": {
+      "name": "Kansas",
+      "median_net_worth": 144700.0,
+      "mean_net_worth": 426800.0,
+      "net_worth_distribution": {
+        "0": 12.0,
+        "5000": 16.0,
+        "10000": 23.5,
+        "25000": 25.5,
+        "50000": 28.7,
+        "100000": 40.5,
+        "250000": 63.6,
+        "500000": 80.6
+      },
+      "households_thousands": 1154.0,
+      "median_household_income": 85540.0,
+      "income_year": 2025,
+      "rpp": 90.068
+    },
+    "KY": {
+      "name": "Kentucky",
+      "median_net_worth": 146300.0,
+      "mean_net_worth": 408100.0,
+      "net_worth_distribution": {
+        "0": 13.6,
+        "5000": 18.8,
+        "10000": 21.8,
+        "25000": 29.0,
+        "50000": 32.6,
+        "100000": 40.1,
+        "250000": 62.9,
+        "500000": 82.4
+      },
+      "households_thousands": 1817.0,
+      "median_household_income": 73750.0,
+      "income_year": 2025,
+      "rpp": 90.159
+    },
+    "LA": {
+      "name": "Louisiana",
+      "median_net_worth": 97380.0,
+      "mean_net_worth": 335600.0,
+      "net_worth_distribution": {
+        "0": 10.0,
+        "5000": 19.9,
+        "10000": 22.4,
+        "25000": 29.9,
+        "50000": 39.9,
+        "100000": 52.8,
+        "250000": 70.5,
+        "500000": 82.7
+      },
+      "households_thousands": 1820.0,
+      "median_household_income": 60670.0,
+      "income_year": 2025,
+      "rpp": 88.207
+    },
+    "ME": {
+      "name": "Maine",
+      "median_net_worth": 312600.0,
+      "mean_net_worth": 748300.0,
+      "net_worth_distribution": {
+        "0": 10.3,
+        "25000": 25.2,
+        "100000": 28.5,
+        "500000": 59.2
+      },
+      "households_thousands": 673.0,
+      "median_household_income": 95150.0,
+      "income_year": 2025,
+      "rpp": 97.05
+    },
+    "MD": {
+      "name": "Maryland",
+      "median_net_worth": 300600.0,
+      "mean_net_worth": 708100.0,
+      "net_worth_distribution": {
+        "0": 11.8,
+        "5000": 17.3,
+        "10000": 20.6,
+        "25000": 24.3,
+        "50000": 30.5,
+        "100000": 34.0,
+        "250000": 47.5,
+        "500000": 58.9
+      },
+      "households_thousands": 2638.0,
+      "median_household_income": 116300.0,
+      "income_year": 2025,
+      "rpp": 104.959
+    },
+    "MA": {
+      "name": "Massachusetts",
+      "median_net_worth": 235900.0,
+      "mean_net_worth": 759400.0,
+      "net_worth_distribution": {
+        "0": 11.1,
+        "5000": 20.5,
+        "10000": 22.3,
+        "25000": 26.0,
+        "50000": 30.0,
+        "100000": 36.3,
+        "250000": 50.4,
+        "500000": 59.7
+      },
+      "households_thousands": 2797.0,
+      "median_household_income": 118500.0,
+      "income_year": 2025,
+      "rpp": 105.757
+    },
+    "MI": {
+      "name": "Michigan",
+      "median_net_worth": 189900.0,
+      "mean_net_worth": 593500.0,
+      "net_worth_distribution": {
+        "0": 12.5,
+        "5000": 17.5,
+        "10000": 19.3,
+        "25000": 22.6,
+        "50000": 29.6,
+        "100000": 37.2,
+        "250000": 54.2,
+        "500000": 69.6
+      },
+      "households_thousands": 4279.0,
+      "median_household_income": 76800.0,
+      "income_year": 2025,
+      "rpp": 96.217
+    },
+    "MN": {
+      "name": "Minnesota",
+      "median_net_worth": 277400.0,
+      "mean_net_worth": 693300.0,
+      "net_worth_distribution": {
+        "0": 9.1,
+        "5000": 13.3,
+        "10000": 15.1,
+        "25000": 20.5,
+        "50000": 24.1,
+        "100000": 32.4,
+        "250000": 47.3,
+        "500000": 64.8
+      },
+      "households_thousands": 2511.0,
+      "median_household_income": 95160.0,
+      "income_year": 2025,
+      "rpp": 98.621
+    },
+    "MS": {
+      "name": "Mississippi",
+      "median_net_worth": 102900.0,
+      "mean_net_worth": 233100.0,
+      "net_worth_distribution": {
+        "0": 17.6,
+        "5000": 21.5,
+        "10000": 25.5,
+        "25000": 35.5,
+        "50000": 38.7,
+        "100000": 49.0,
+        "250000": 73.1,
+        "500000": 84.0
+      },
+      "households_thousands": 1171.0,
+      "median_household_income": 57840.0,
+      "income_year": 2025,
+      "rpp": 86.953
+    },
+    "MO": {
+      "name": "Missouri",
+      "median_net_worth": 149500.0,
+      "mean_net_worth": 476400.0,
+      "net_worth_distribution": {
+        "0": 9.7,
+        "5000": 18.5,
+        "10000": 23.5,
+        "25000": 27.1,
+        "50000": 37.1,
+        "100000": 44.1,
+        "250000": 60.0,
+        "500000": 71.9
+      },
+      "households_thousands": 2620.0,
+      "median_household_income": 84700.0,
+      "income_year": 2025,
+      "rpp": 90.817
+    },
+    "MT": {
+      "name": "Montana",
+      "median_net_worth": 252200.0,
+      "mean_net_worth": 853000.0,
+      "net_worth_distribution": {
+        "0": 8.6,
+        "25000": 26.5,
+        "100000": 37.9,
+        "500000": 65.5
+      },
+      "households_thousands": 515.0,
+      "median_household_income": 86770.0,
+      "income_year": 2025,
+      "rpp": 94.645
+    },
+    "NE": {
+      "name": "Nebraska",
+      "median_net_worth": 259400.0,
+      "mean_net_worth": 663100.0,
+      "net_worth_distribution": null,
+      "households_thousands": 703.0,
+      "median_household_income": 100600.0,
+      "income_year": 2025,
+      "rpp": 90.103
+    },
+    "NV": {
+      "name": "Nevada",
+      "median_net_worth": 151300.0,
+      "mean_net_worth": 430400.0,
+      "net_worth_distribution": {
+        "0": 17.7,
+        "5000": 27.4,
+        "10000": 28.6,
+        "25000": 32.9,
+        "50000": 35.9,
+        "100000": 42.8,
+        "250000": 57.8,
+        "500000": 72.8
+      },
+      "households_thousands": 1264.0,
+      "median_household_income": 88880.0,
+      "income_year": 2025,
+      "rpp": 99.979
+    },
+    "NH": {
+      "name": "New Hampshire",
+      "median_net_worth": 378900.0,
+      "mean_net_worth": 763300.0,
+      "net_worth_distribution": {
+        "0": 7.0,
+        "25000": 15.9,
+        "100000": 29.6,
+        "500000": 61.1
+      },
+      "households_thousands": 593.0,
+      "median_household_income": 112100.0,
+      "income_year": 2025,
+      "rpp": 104.165
+    },
+    "NJ": {
+      "name": "New Jersey",
+      "median_net_worth": 354400.0,
+      "mean_net_worth": 857700.0,
+      "net_worth_distribution": {
+        "0": 12.6,
+        "5000": 17.4,
+        "10000": 20.3,
+        "25000": 21.9,
+        "50000": 27.4,
+        "100000": 33.8,
+        "250000": 41.5,
+        "500000": 57.9
+      },
+      "households_thousands": 3253.0,
+      "median_household_income": 111400.0,
+      "income_year": 2025,
+      "rpp": 108.805
+    },
+    "NM": {
+      "name": "New Mexico",
+      "median_net_worth": 193800.0,
+      "mean_net_worth": 334000.0,
+      "net_worth_distribution": {
+        "0": 6.0,
+        "5000": 18.4,
+        "10000": 22.4,
+        "25000": 24.6,
+        "50000": 26.9,
+        "100000": 34.3,
+        "250000": 57.6,
+        "500000": 76.0
+      },
+      "households_thousands": 989.0,
+      "median_household_income": 67620.0,
+      "income_year": 2025,
+      "rpp": 92.212
+    },
+    "NY": {
+      "name": "New York",
+      "median_net_worth": 111400.0,
+      "mean_net_worth": 498300.0,
+      "net_worth_distribution": {
+        "0": 15.6,
+        "5000": 26.7,
+        "10000": 30.0,
+        "25000": 34.3,
+        "50000": 41.3,
+        "100000": 48.1,
+        "250000": 60.8,
+        "500000": 72.1
+      },
+      "households_thousands": 8088.0,
+      "median_household_income": 86900.0,
+      "income_year": 2025,
+      "rpp": 107.921
+    },
+    "NC": {
+      "name": "North Carolina",
+      "median_net_worth": 203700.0,
+      "mean_net_worth": 590300.0,
+      "net_worth_distribution": {
+        "0": 11.1,
+        "5000": 16.3,
+        "10000": 20.8,
+        "25000": 26.0,
+        "50000": 29.1,
+        "100000": 34.9,
+        "250000": 53.9,
+        "500000": 67.9
+      },
+      "households_thousands": 4554.0,
+      "median_household_income": 80250.0,
+      "income_year": 2025,
+      "rpp": 94.326
+    },
+    "ND": {
+      "name": "North Dakota",
+      "median_net_worth": null,
+      "mean_net_worth": null,
+      "net_worth_distribution": null,
+      "households_thousands": 381.0,
+      "median_household_income": 85060.0,
+      "income_year": 2025,
+      "rpp": 88.959
+    },
+    "OH": {
+      "name": "Ohio",
+      "median_net_worth": 132900.0,
+      "mean_net_worth": 454700.0,
+      "net_worth_distribution": {
+        "0": 14.2,
+        "5000": 24.4,
+        "10000": 27.5,
+        "25000": 34.9,
+        "50000": 38.7,
+        "100000": 46.1,
+        "250000": 58.2,
+        "500000": 74.0
+      },
+      "households_thousands": 5061.0,
+      "median_household_income": 85150.0,
+      "income_year": 2025,
+      "rpp": 92.774
+    },
+    "OK": {
+      "name": "Oklahoma",
+      "median_net_worth": 61080.0,
+      "mean_net_worth": 284200.0,
+      "net_worth_distribution": {
+        "0": 20.1,
+        "5000": 26.6,
+        "10000": 32.5,
+        "25000": 39.2,
+        "50000": 49.2,
+        "100000": 54.8,
+        "250000": 71.9,
+        "500000": 82.6
+      },
+      "households_thousands": 1711.0,
+      "median_household_income": 75390.0,
+      "income_year": 2025,
+      "rpp": 87.843
+    },
+    "OR": {
+      "name": "Oregon",
+      "median_net_worth": 237600.0,
+      "mean_net_worth": 738700.0,
+      "net_worth_distribution": {
+        "0": 13.4,
+        "5000": 18.5,
+        "10000": 21.6,
+        "25000": 27.3,
+        "50000": 31.5,
+        "100000": 36.3,
+        "250000": 50.9,
+        "500000": 64.1
+      },
+      "households_thousands": 1876.0,
+      "median_household_income": 92740.0,
+      "income_year": 2025,
+      "rpp": 103.361
+    },
+    "PA": {
+      "name": "Pennsylvania",
+      "median_net_worth": 256200.0,
+      "mean_net_worth": 561700.0,
+      "net_worth_distribution": {
+        "0": 7.8,
+        "5000": 11.6,
+        "10000": 14.2,
+        "25000": 20.4,
+        "50000": 26.4,
+        "100000": 34.3,
+        "250000": 49.1,
+        "500000": 68.1
+      },
+      "households_thousands": 5049.0,
+      "median_household_income": 85880.0,
+      "income_year": 2025,
+      "rpp": 97.572
+    },
+    "RI": {
+      "name": "Rhode Island",
+      "median_net_worth": null,
+      "mean_net_worth": null,
+      "net_worth_distribution": null,
+      "households_thousands": 403.0,
+      "median_household_income": 96880.0,
+      "income_year": 2025,
+      "rpp": 102.28
+    },
+    "SC": {
+      "name": "South Carolina",
+      "median_net_worth": 198700.0,
+      "mean_net_worth": 613600.0,
+      "net_worth_distribution": {
+        "0": 10.9,
+        "5000": 15.6,
+        "10000": 17.0,
+        "25000": 23.4,
+        "50000": 29.8,
+        "100000": 39.0,
+        "250000": 54.2,
+        "500000": 70.0
+      },
+      "households_thousands": 2100.0,
+      "median_household_income": 82320.0,
+      "income_year": 2025,
+      "rpp": 93.749
+    },
+    "SD": {
+      "name": "South Dakota",
+      "median_net_worth": null,
+      "mean_net_worth": null,
+      "net_worth_distribution": {
+        "0": 13.8,
+        "25000": 23.8,
+        "100000": 41.9,
+        "500000": 58.4
+      },
+      "households_thousands": 272.0,
+      "median_household_income": 82460.0,
+      "income_year": 2025,
+      "rpp": 88.586
+    },
+    "TN": {
+      "name": "Tennessee",
+      "median_net_worth": 173000.0,
+      "mean_net_worth": 519700.0,
+      "net_worth_distribution": {
+        "0": 15.7,
+        "5000": 21.2,
+        "10000": 23.4,
+        "25000": 30.2,
+        "50000": 33.8,
+        "100000": 40.5,
+        "250000": 55.0,
+        "500000": 74.6
+      },
+      "households_thousands": 2804.0,
+      "median_household_income": 75250.0,
+      "income_year": 2025,
+      "rpp": 91.87
+    },
+    "TX": {
+      "name": "Texas",
+      "median_net_worth": 159100.0,
+      "mean_net_worth": 482400.0,
+      "net_worth_distribution": {
+        "0": 12.4,
+        "5000": 20.1,
+        "10000": 23.9,
+        "25000": 28.5,
+        "50000": 35.0,
+        "100000": 43.6,
+        "250000": 60.4,
+        "500000": 75.9
+      },
+      "households_thousands": 11720.0,
+      "median_household_income": 85060.0,
+      "income_year": 2025,
+      "rpp": 97.057
+    },
+    "UT": {
+      "name": "Utah",
+      "median_net_worth": 311500.0,
+      "mean_net_worth": 688200.0,
+      "net_worth_distribution": {
+        "0": 10.6,
+        "5000": 14.0,
+        "10000": 17.9,
+        "25000": 23.6,
+        "50000": 29.5,
+        "100000": 37.3,
+        "250000": 47.0,
+        "500000": 58.7
+      },
+      "households_thousands": 1231.0,
+      "median_household_income": 102900.0,
+      "income_year": 2025,
+      "rpp": 98.864
+    },
+    "VT": {
+      "name": "Vermont",
+      "median_net_worth": null,
+      "mean_net_worth": null,
+      "net_worth_distribution": null,
+      "households_thousands": 253.0,
+      "median_household_income": 95290.0,
+      "income_year": 2025,
+      "rpp": 97.958
+    },
+    "VA": {
+      "name": "Virginia",
+      "median_net_worth": 314500.0,
+      "mean_net_worth": 820500.0,
+      "net_worth_distribution": {
+        "0": 8.9,
+        "5000": 14.3,
+        "10000": 17.0,
+        "25000": 24.9,
+        "50000": 27.9,
+        "100000": 32.4,
+        "250000": 45.5,
+        "500000": 61.7
+      },
+      "households_thousands": 3514.0,
+      "median_household_income": 100000.0,
+      "income_year": 2025,
+      "rpp": 101.104
+    },
+    "WA": {
+      "name": "Washington",
+      "median_net_worth": 402800.0,
+      "mean_net_worth": 822500.0,
+      "net_worth_distribution": {
+        "0": 8.5,
+        "5000": 12.2,
+        "10000": 14.0,
+        "25000": 20.0,
+        "50000": 24.8,
+        "100000": 28.0,
+        "250000": 39.5,
+        "500000": 54.3
+      },
+      "households_thousands": 3080.0,
+      "median_household_income": 112600.0,
+      "income_year": 2025,
+      "rpp": 107.013
+    },
+    "WV": {
+      "name": "West Virginia",
+      "median_net_worth": 99000.0,
+      "mean_net_worth": 286900.0,
+      "net_worth_distribution": {
+        "0": 13.5,
+        "5000": 23.0,
+        "10000": 28.5,
+        "25000": 35.2,
+        "50000": 38.0,
+        "100000": 51.0,
+        "250000": 61.6,
+        "500000": 79.2
+      },
+      "households_thousands": 805.0,
+      "median_household_income": 61770.0,
+      "income_year": 2025,
+      "rpp": 89.497
+    },
+    "WI": {
+      "name": "Wisconsin",
+      "median_net_worth": 241600.0,
+      "mean_net_worth": 609700.0,
+      "net_worth_distribution": {
+        "0": 12.6,
+        "5000": 15.7,
+        "10000": 21.0,
+        "25000": 24.5,
+        "50000": 29.7,
+        "100000": 35.2,
+        "250000": 50.8,
+        "500000": 70.5
+      },
+      "households_thousands": 2684.0,
+      "median_household_income": 88020.0,
+      "income_year": 2025,
+      "rpp": 94.095
+    },
+    "WY": {
+      "name": "Wyoming",
+      "median_net_worth": null,
+      "mean_net_worth": null,
+      "net_worth_distribution": null,
+      "households_thousands": 288.0,
+      "median_household_income": 81030.0,
+      "income_year": 2025,
+      "rpp": 92.691
+    }
+  }
+}

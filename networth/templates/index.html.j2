@@ -1,0 +1,852 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Net Worth Report</title>
+<style>
+:root {
+  color-scheme: light;
+  --page: #f9f9f7;
+  --surface-1: #fcfcfb;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #898781;
+  --grid: #e1e0d9;
+  --axis: #c3c2b7;
+  --border: rgba(11,11,11,0.10);
+  --deemph: #c3c2b7;
+  --series-1: #2a78d6; --series-2: #eb6834; --series-3: #1baf7a;
+  --series-4: #eda100; --series-5: #e87ba4; --series-6: #008300;
+  --tier-1: #86b6ef; --tier-2: #5598e7; --tier-3: #2a78d6; --tier-4: #1c5cab; --tier-5: #104281;
+  --good: #0ca30c; --warning: #fab219; --serious: #ec835a; --critical: #d03b3b;
+  --good-text: #006300; --critical-text: #b42d2d; --warning-text: #8a5a00;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface-1: #1a1a19;
+    --text-primary: #f0efec; --text-secondary: #c3c2b7; --text-muted: #898781;
+    --grid: #2c2c2a; --axis: #383835; --border: rgba(255,255,255,0.10); --deemph: #4a4a46;
+    --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
+    --series-4: #c98500; --series-5: #d55181; --series-6: #008300;
+    --tier-1: #184f95; --tier-2: #256abf; --tier-3: #3987e5; --tier-4: #6da7ec; --tier-5: #b7d3f6;
+    --good-text: #0ca30c; --critical-text: #e66767; --warning-text: #fab219;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #0d0d0d; --surface-1: #1a1a19;
+  --text-primary: #f0efec; --text-secondary: #c3c2b7; --text-muted: #898781;
+  --grid: #2c2c2a; --axis: #383835; --border: rgba(255,255,255,0.10); --deemph: #4a4a46;
+  --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
+  --series-4: #c98500; --series-5: #d55181; --series-6: #008300;
+  --tier-1: #184f95; --tier-2: #256abf; --tier-3: #3987e5; --tier-4: #6da7ec; --tier-5: #b7d3f6;
+  --good-text: #0ca30c; --critical-text: #e66767; --warning-text: #fab219;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--page); color: var(--text-primary);
+  font: 16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+main { max-width: 1040px; margin: 0 auto; padding: 32px 16px 64px; }
+h1 { font-size: 28px; line-height: 1.2; margin: 0 0 4px; font-weight: 650; }
+h2 { font-size: 20px; margin: 0 0 4px; font-weight: 650; }
+h3 { font-size: 15px; margin: 0 0 2px; font-weight: 600; }
+p { margin: 0 0 10px; }
+.muted { color: var(--text-muted); }
+.secondary { color: var(--text-secondary); }
+.small { font-size: 13px; }
+header.top { margin-bottom: 24px; }
+header.top .meta { color: var(--text-secondary); font-size: 14px; }
+.card {
+  background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px;
+  padding: 20px; margin-bottom: 16px;
+}
+section { margin-bottom: 40px; }
+section > .lede { color: var(--text-secondary); margin-bottom: 14px; }
+.grid-2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+@media (max-width: 760px) { .grid-2 { grid-template-columns: minmax(0, 1fr); } }
+.card, .chart-card, .chart { min-width: 0; }
+.chart canvas { max-width: 100%; }
+
+/* Hero + tiles */
+.hero { display: flex; flex-wrap: wrap; gap: 16px; align-items: stretch; margin-bottom: 16px; }
+.hero .figure { flex: 1 1 260px; }
+.hero .figure .label { color: var(--text-secondary); font-size: 14px; }
+.hero .figure .value { font-size: 52px; font-weight: 650; line-height: 1.1; letter-spacing: -0.01em; }
+.hero .figure .sub { color: var(--text-secondary); font-size: 14px; }
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+@media (max-width: 760px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+.tile .label { color: var(--text-secondary); font-size: 13px; }
+.tile .value { font-size: 26px; font-weight: 650; line-height: 1.25; overflow-wrap: anywhere; }
+.tile .sub { color: var(--text-muted); font-size: 13px; }
+
+/* Verdict */
+.verdict .headline { font-size: 20px; font-weight: 600; line-height: 1.4; margin-bottom: 12px; }
+.verdict p { color: var(--text-secondary); }
+
+/* Status */
+.status { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600;
+          text-transform: uppercase; letter-spacing: .03em; white-space: nowrap; }
+.status svg { width: 14px; height: 14px; flex: none; }
+.status.bad, .status.critical { color: var(--critical-text); }
+.status.warning { color: var(--warning-text); }
+.status.good { color: var(--good-text); }
+.status.none { color: var(--text-muted); }
+ul.findings { list-style: none; padding: 0; margin: 12px 0 0; }
+ul.findings li { display: grid; grid-template-columns: 96px 1fr; gap: 10px; padding: 8px 0;
+                 border-top: 1px solid var(--grid); }
+@media (max-width: 480px) { ul.findings li { grid-template-columns: 1fr; gap: 2px; } }
+
+/* Charts */
+.chart-card h3 { margin-bottom: 2px; }
+.chart-card .takeaway { color: var(--text-secondary); font-size: 14px; margin-bottom: 12px; }
+.chart { position: relative; width: 100%; }
+.chart.h-220 { height: 220px; } .chart.h-260 { height: 260px; } .chart.h-320 { height: 320px; }
+details.table-view { margin-top: 10px; font-size: 14px; }
+details.table-view summary { cursor: pointer; color: var(--text-secondary); }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; margin-top: 8px; font-size: 14px; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--grid); vertical-align: top; }
+th { color: var(--text-secondary); font-weight: 600; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.no-charts .chart { display: none; }
+.no-charts-note { display: none; }
+.no-charts .no-charts-note { display: block; }
+.hidden-note { color: var(--text-muted); font-size: 14px; }
+
+/* Milestones */
+.milestones { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+@media (max-width: 760px) { .milestones { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.milestones .tile .value { font-size: 22px; }
+
+/* Credit meter */
+.meter { position: relative; margin: 52px 0 8px; }
+.meter .track { position: relative; height: 14px; display: flex; gap: 2px; }
+.meter .seg { height: 100%; }
+.meter .seg:first-child { border-radius: 4px 0 0 4px; } .meter .seg:last-child { border-radius: 0 4px 4px 0; }
+ul.tierkey { list-style: none; padding: 0; margin: 0 0 16px; display: flex; flex-wrap: wrap; gap: 6px 16px;
+             font-size: 13px; color: var(--text-secondary); }
+.meter .marker-label { position: absolute; font-size: 13px; font-weight: 650; white-space: nowrap; }
+.meter .marker-line { position: absolute; top: -10px; width: 2px; height: 26px; margin-left: -1px;
+                      background: var(--text-primary); border-radius: 1px; }
+.meter .avg { position: absolute; top: -4px; height: 22px; width: 2px; background: var(--text-muted);
+              transform: translateX(-50%); }
+.meter .avglabels { position: relative; height: 34px; margin-top: 8px; font-size: 12px; color: var(--text-muted); }
+.meter .avglabels span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+
+/* Score bars */
+.scorebars { display: grid; gap: 12px; }
+.scorebar { display: grid; grid-template-columns: minmax(150px, 230px) minmax(0, 1fr) 180px; gap: 12px; align-items: center; }
+@media (max-width: 640px) {
+  .scorebar { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  .scorebar .right { text-align: left; }
+  .scorebar .right br { display: none; }
+  .scorebar .right .status { margin-right: 8px; }
+}
+.scorebar .name { font-weight: 600; font-size: 14px; }
+.scorebar .detail { color: var(--text-muted); font-size: 12px; }
+.barwrap { position: relative; height: 10px; background: var(--grid); border-radius: 4px; }
+.barwrap .fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; }
+.fill.good { background: var(--good); } .fill.warning { background: var(--warning); }
+.fill.critical { background: var(--critical); } .fill.none { background: transparent; }
+.scorebar .right { text-align: right; font-size: 13px; }
+.scorebar .right b { font-size: 15px; }
+
+/* Suggestions */
+ol.suggestions { padding: 0; margin: 0; list-style: none; counter-reset: s; }
+ol.suggestions li { counter-increment: s; position: relative; padding: 16px 16px 16px 56px; margin-bottom: 12px;
+                    background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; }
+ol.suggestions li::before { content: counter(s); position: absolute; left: 16px; top: 16px; width: 28px; height: 28px;
+                            border-radius: 50%; background: var(--series-1); color: #fff; font-weight: 650;
+                            display: grid; place-items: center; font-size: 14px; }
+ol.suggestions .title { font-weight: 600; margin-bottom: 4px; }
+ol.suggestions .why, ol.suggestions .impact { font-size: 14px; color: var(--text-secondary); margin: 2px 0 0; }
+.prio { font-size: 12px; color: var(--text-muted); margin-left: 6px; font-weight: 500; }
+
+footer { border-top: 1px solid var(--grid); padding-top: 16px; font-size: 13px; color: var(--text-secondary);
+         overflow-wrap: anywhere; }
+main p, main li { overflow-wrap: break-word; }
+footer ul { padding-left: 18px; }
+.disclaimer { font-weight: 600; color: var(--text-primary); }
+.legend-key { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+@media print {
+  body { background: #fff; } .card, .tile, ol.suggestions li { break-inside: avoid; }
+  details.table-view { display: block; } details.table-view > *:not(summary) { display: block; }
+}
+</style>
+</head>
+<body>
+{% macro status_icon(sev) -%}
+{% if sev in ("bad", "critical") %}<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="currentColor"/><path d="M5.2 5.2l5.6 5.6M10.8 5.2l-5.6 5.6" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+{%- elif sev == "warning" %}<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l7 12.5H1z" fill="currentColor"/><path d="M8 6v3.6" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="8" cy="11.8" r="1" fill="#fff"/></svg>
+{%- elif sev == "good" %}<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="currentColor"/><path d="M4.6 8.3l2.2 2.2 4.6-4.8" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+{%- else %}<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+{%- endif %}
+{%- endmacro %}
+{% macro findings_list(section) %}
+{% if findings.get(section) %}
+<ul class="findings">
+  {% for f in findings[section] %}
+  <li><span class="status {{ f.severity }}">{{ status_icon(f.severity) }}{{ f.label }}</span><span>{{ f.text }}</span></li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endmacro %}
+{% macro table_view(key, title) %}
+{% if tables.get(key) %}
+<details class="table-view">
+  <summary>Show table: {{ title }}</summary>
+  <div class="table-wrap"><table>
+    <thead><tr>{% for h in tables[key].headers %}<th{% if not loop.first %} class="num"{% endif %}>{{ h }}</th>{% endfor %}</tr></thead>
+    <tbody>{% for row in tables[key].rows %}<tr>{% for cell in row %}<td{% if not loop.first %} class="num"{% endif %}>{{ cell }}</td>{% endfor %}</tr>{% endfor %}</tbody>
+  </table></div>
+</details>
+{% endif %}
+{% endmacro %}
+<main>
+  <header class="top">
+    <h1>Your Net Worth Report</h1>
+    <div class="meta">{{ household }} · age {{ ages }} · {{ state_name }} · data as of {{ as_of }} · generated {{ generated }}</div>
+    <p class="small muted" style="margin-top:6px">{{ report.disclaimer }}</p>
+  </header>
+
+  <p class="no-charts-note card small">Charts couldn't load (no internet connection, or JavaScript is off). Every chart's numbers are in the tables below.</p>
+
+  <!-- 2. KPIs -->
+  <div class="hero">
+    <div class="card figure">
+      <div class="label">Net worth</div>
+      <div class="value">{{ net_worth }}</div>
+      <div class="sub">{{ assets }} in assets − {{ debts }} in debts</div>
+    </div>
+  </div>
+  <div class="tiles">
+    {% for t in tiles %}
+    <div class="tile"><div class="label">{{ t.label }}</div><div class="value">{{ t.value }}</div><div class="sub">{{ t.sub }}</div></div>
+    {% endfor %}
+  </div>
+
+  <!-- 3. Verdict -->
+  <section class="card verdict" id="verdict">
+    <div class="headline">{{ report.headline }}</div>
+    {% for v in report.verdict %}<p>{{ v }}</p>{% endfor %}
+  </section>
+
+  <!-- 4. Breakdown -->
+  <section id="breakdown">
+    <h2>{{ titles.breakdown }}</h2>
+    <div class="lede">{{ report.sections.breakdown | join(" ") }}</div>
+    {% if has.categories %}
+    <div class="card chart-card">
+      <h3>Assets and debts by category</h3>
+      <div class="takeaway">You own {{ assets }} and owe {{ debts }}. Each asset bar shows its share of everything you own.</div>
+      <div class="chart" style="height: {{ category_height }}px"><canvas id="chart-categories" role="img" aria-label="Bar chart of assets and debts by category"></canvas></div>
+      {{ table_view("categories", "every item") }}
+      {{ table_view("mix", "share of assets") }}
+    </div>
+    {% endif %}
+    {% if has.owners %}
+    <div class="card chart-card">
+      <h3>Who owns what</h3>
+      <div class="takeaway">Assets and debts by partner.</div>
+      <div class="chart h-220"><canvas id="chart-owners" role="img" aria-label="Assets and debts by partner"></canvas></div>
+      {{ table_view("owners", "assets and debts by partner") }}
+    </div>
+    {% endif %}
+    {{ findings_list("breakdown") }}
+  </section>
+
+  <!-- 5. History and projections -->
+  <section id="projections">
+    <h2>{{ titles.projections }}</h2>
+    <div class="lede">{{ report.sections.projections[0] }}</div>
+    {% if has.history %}
+    <div class="card chart-card">
+      <h3>Net worth history</h3>
+      <div class="takeaway">Every value from your file, oldest to newest.</div>
+      <div class="chart h-260"><canvas id="chart-history" role="img" aria-label="Line chart of net worth history"></canvas></div>
+      {{ table_view("history", "net worth history") }}
+    </div>
+    {% else %}
+    <p class="hidden-note">{{ hidden.history }}</p>
+    {% endif %}
+    <div class="card chart-card">
+      <h3>Projected net worth, next 20 years</h3>
+      <div class="takeaway">Dashed line: expected. Shaded band: conservative to optimistic.{% if has.default %} Orange line: the same forecast at default assumptions.{% endif %}</div>
+      <div class="chart h-320"><canvas id="chart-projection" role="img" aria-label="Line chart of projected net worth"></canvas></div>
+      <div class="milestones">
+        {% for m in milestones %}
+        <div class="tile">
+          <div class="label">In {{ m.years }} years ({{ m.year }}, age {{ m.ages }})</div>
+          <div class="value">{{ m.expected }}</div>
+          <div class="sub">{{ m.real }} in today's dollars · range {{ m.low }}–{{ m.high }}</div>
+        </div>
+        {% endfor %}
+      </div>
+      {{ table_view("projection", "projection by year") }}
+    </div>
+    {% for line in report.sections.projections[1:] %}<p class="secondary small">{{ line }}</p>{% endfor %}
+    {{ findings_list("projections") }}
+  </section>
+
+  <!-- 6. Age -->
+  <section id="age">
+    <h2>{{ titles.age }}</h2>
+    <div class="lede">{{ report.sections.age[0] }}</div>
+    <div class="grid-2">
+      <div class="card chart-card">
+        <h3>Where you fall, ages {{ tables.age_ladder.headers[1].split("ages ")[1] }}</h3>
+        <div class="takeaway">Net worth at each percentile for households your age, with you in blue.</div>
+        <div class="chart h-260"><canvas id="chart-age-ladder" role="img" aria-label="Net worth percentiles for your age group compared with you"></canvas></div>
+        {{ table_view("age_ladder", "all percentiles") }}
+      </div>
+      <div class="card chart-card">
+        <h3>Median net worth by age</h3>
+        <div class="takeaway">Your age group in blue; the line is you.</div>
+        <div class="chart h-260"><canvas id="chart-age-medians" role="img" aria-label="Median net worth by age group"></canvas></div>
+        {{ table_view("age_medians", "medians and means by age") }}
+      </div>
+    </div>
+    {% for line in report.sections.age[1:] %}<p class="secondary small">{{ line }}</p>{% endfor %}
+    {{ findings_list("age") }}
+  </section>
+
+  <!-- 7. State -->
+  <section id="state">
+    <h2>{{ titles.state }}</h2>
+    <div class="lede">{{ report.sections.state[0] }}</div>
+    <div class="card chart-card">
+      <h3>You vs. {{ state_name }}</h3>
+      <div class="takeaway">Your bars in blue. State and U.S. medians cover households of all ages (Census).</div>
+      <div class="chart h-220"><canvas id="chart-state" role="img" aria-label="Your net worth compared with state and national medians"></canvas></div>
+      {{ table_view("state", "state comparison") }}
+    </div>
+    {% for line in report.sections.state[1:] %}<p class="secondary small">{{ line }}</p>{% endfor %}
+  </section>
+
+  <!-- 8. Credit -->
+  <section id="credit">
+    <h2>{{ titles.credit }}</h2>
+    <div class="card">
+      <div class="meter" role="img" aria-label="Credit score scale from 300 to 850 with your score marked">
+        <div class="track">
+          {% for t in credit.tiers %}<div class="seg" style="width: {{ t.width }}%; background: var(--tier-{{ t.step }});"></div>{% endfor %}
+          {% for m in credit.marks %}<div class="avg" style="left: {{ m.pos }}%;"></div>{% endfor %}
+        </div>
+        {% for p in credit.people %}
+        <div class="marker-line" style="left: {{ p.pos }}%;"></div>
+        <div class="marker-label" style="left: {{ p.pos }}%; transform: translateX({{ p.shift }}); top: {{ -30 - loop.index0 * 18 }}px">{{ p.label }}: {{ p.score }}</div>
+        {% endfor %}
+        <div class="avglabels">
+          {% for m in credit.marks %}<span style="left: {{ m.pos }}%; transform: translateX({{ m.shift }}); top: {{ loop.index0 * 16 }}px">{{ m.label }}</span>{% endfor %}
+        </div>
+      </div>
+      <ul class="tierkey">
+        {% for t in credit.tiers %}<li><span class="legend-key" style="background: var(--tier-{{ t.step }})"></span>{{ t.name }} <span class="muted">{{ t.range }}</span></li>{% endfor %}
+      </ul>
+      {% for line in report.sections.credit %}<p class="secondary">{{ line }}</p>{% endfor %}
+      {{ findings_list("credit") }}
+    </div>
+  </section>
+
+  <!-- 9. Income -->
+  <section id="income">
+    <h2>{{ titles.income }}</h2>
+    {% for line in report.sections.income %}<p class="secondary">{{ line }}</p>{% endfor %}
+    {% if has.income %}
+    <div class="card chart-card">
+      <h3>Income vs. change in net worth</h3>
+      <div class="takeaway">The gap between the bars is what you spent.</div>
+      <div class="chart h-260"><canvas id="chart-income" role="img" aria-label="Yearly income compared with yearly change in net worth"></canvas></div>
+      {{ table_view("income", "income and savings rate") }}
+    </div>
+    {% elif income_given %}
+    <p class="hidden-note">{{ hidden.income }}</p>
+    {% endif %}
+    {{ findings_list("income") }}
+  </section>
+
+  <!-- 10. Assumptions -->
+  <section id="assumptions">
+    <h2>{{ titles.assumptions }}</h2>
+    <div class="card">
+      <div class="table-wrap"><table>
+        <thead><tr><th>Assumption</th><th class="num">Value</th><th class="num">Source</th></tr></thead>
+        <tbody>
+        {% for a in assumption_rows %}
+          <tr><td>{{ a.label }}</td><td class="num">{{ a.value }}</td><td class="num">{{ a.source }}</td></tr>
+        {% endfor %}
+        </tbody>
+      </table></div>
+      {% if report.assumption_warnings or report.assumption_comparison %}
+      <ul class="findings">
+        {% for w in report.assumption_warnings %}
+        <li><span class="status warning">{{ status_icon("warning") }}Check</span><span>{{ w.message }}</span></li>
+        {% endfor %}
+        {% if report.assumption_comparison %}<li><span class="status none">{{ status_icon("none") }}Compare</span><span>{{ report.assumption_comparison }}</span></li>{% endif %}
+      </ul>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- 11. Final summary -->
+  <section id="summary">
+    <h2>Final summary: {{ report.score|round|int }}/100, grade {{ report.grade }}</h2>
+    <div class="lede">{{ report.headline }}</div>
+    <div class="card">
+      <div class="scorebars">
+        {% for s in score_rows %}
+        <div class="scorebar">
+          <div><div class="name">{{ s.label }}</div><div class="detail">{{ s.detail }}</div></div>
+          <div class="barwrap" role="img" aria-label="{{ s.label }}: {{ s.score|round|int if s.score is not none else 'no data' }} out of 100">
+            {% if s.score is not none %}<div class="fill {{ s.status }}" style="width: {{ [s.score, 1]|max }}%;"></div>{% endif %}
+          </div>
+          <div class="right">
+            <span class="status {{ s.status }}">{{ status_icon(s.status) }}{{ s.word }}</span><br>
+            {% if s.score is not none %}<b>{{ s.score|round|int }}</b><span class="muted">/100 · {{ s.weight|round(1) }}% weight</span>{% else %}<span class="muted">weight shared out</span>{% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% if missing %}<p class="small muted" style="margin-top:12px">Not scored (no data): {{ missing|join(", ") }}. Their weight went to the other parts.</p>{% endif %}
+    </div>
+  </section>
+
+  <!-- 12. Suggestions -->
+  <section id="suggestions">
+    <h2>What to do next</h2>
+    <ol class="suggestions">
+      {% for s in report.suggestions %}
+      <li>
+        <div class="title">{{ s.title }}<span class="prio">{{ {1: "urgent", 2: "important", 3: "optimize"}[s.priority] }}</span></div>
+        <p class="why"><b>Why:</b> {{ s.reason }}</p>
+        <p class="impact"><b>Impact:</b> {{ s.impact }}</p>
+      </li>
+      {% endfor %}
+    </ol>
+  </section>
+
+  <!-- 13. Footer -->
+  <footer>
+    {% if report.data_notes %}
+    <h3>About your file</h3>
+    <ul>{% for n in report.data_notes %}<li>{{ n }}</li>{% endfor %}</ul>
+    {% endif %}
+    <h3>Data sources</h3>
+    <ul>{% for s in sources %}<li>{{ s }}</li>{% endfor %}</ul>
+    <p class="disclaimer">{{ report.disclaimer }}</p>
+  </footer>
+</main>
+
+<script type="application/json" id="report-data">{{ chart_json|safe }}</script>
+<script src="{{ chart_js_url }}"></script>
+<script>
+(function () {
+  "use strict";
+  var DATA = JSON.parse(document.getElementById("report-data").textContent).charts;
+  if (!window.Chart) {
+    document.body.classList.add("no-charts");
+    document.querySelectorAll("details.table-view").forEach(function (d) { d.open = true; });
+    return;
+  }
+
+  function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  function money(v, compact) {
+    var sign = v < 0 ? "-" : "", a = Math.abs(v);
+    if (compact) {
+      var units = [[1e9, "B"], [1e6, "M"], [1e3, "K"]];
+      for (var i = 0; i < units.length; i++) {
+        if (a >= units[i][0]) {
+          var n = (a / units[i][0]).toFixed(1).replace(/\.0$/, "");
+          return sign + "$" + n + units[i][1];
+        }
+      }
+    }
+    return sign + "$" + Math.round(a).toLocaleString("en-US");
+  }
+  function yearLabel(x) { return String(Math.floor(x + 1e-6)); }
+
+  // Draw a value at the end of each bar (only where it fits outside the bar end).
+  var tipLabels = {
+    id: "tipLabels",
+    afterDatasetsDraw: function (chart, args, opts) {
+      if (!opts || !opts.enabled) return;
+      var ctx = chart.ctx, horizontal = chart.options.indexAxis === "y";
+      ctx.save();
+      ctx.font = "12px system-ui, -apple-system, 'Segoe UI', sans-serif";
+      ctx.fillStyle = opts.color;
+      chart.data.datasets.forEach(function (ds, di) {
+        var meta = chart.getDatasetMeta(di);
+        if (meta.hidden) return;
+        meta.data.forEach(function (bar, i) {
+          var v = ds.data[i];
+          if (v === null || v === undefined || (opts.skipZero && v === 0)) return;
+          var text = money(v, true);
+          if (opts.suffixes && opts.suffixes[di] && opts.suffixes[di][i]) text += " · " + opts.suffixes[di][i];
+          if (horizontal) {
+            var neg = v < 0;
+            ctx.textAlign = neg ? "right" : "left"; ctx.textBaseline = "middle";
+            ctx.fillText(text, bar.x + (neg ? -6 : 6), bar.y);
+          } else {
+            ctx.textAlign = "center"; ctx.textBaseline = v < 0 ? "top" : "bottom";
+            ctx.fillText(text, bar.x, bar.y + (v < 0 ? 4 : -4));
+          }
+        });
+      });
+      ctx.restore();
+    }
+  };
+
+  // A reference line (e.g. "You") across a bar chart.
+  var refLine = {
+    id: "refLine",
+    afterDatasetsDraw: function (chart, args, opts) {
+      if (!opts || opts.value === undefined) return;
+      var scale = chart.scales[opts.axis || "y"], area = chart.chartArea, ctx = chart.ctx;
+      var p = scale.getPixelForValue(opts.value);
+      ctx.save();
+      ctx.strokeStyle = opts.color; ctx.lineWidth = 2;
+      ctx.beginPath();
+      if ((opts.axis || "y") === "y") { ctx.moveTo(area.left, p); ctx.lineTo(area.right, p); }
+      else { ctx.moveTo(p, area.top); ctx.lineTo(p, area.bottom); }
+      ctx.stroke();
+      ctx.fillStyle = opts.textColor;
+      ctx.font = "600 12px system-ui, -apple-system, 'Segoe UI', sans-serif";
+      ctx.textAlign = "left"; ctx.textBaseline = "bottom";
+      ctx.fillText(opts.label, area.left + 4, p - 4);
+      ctx.restore();
+    }
+  };
+
+  // Vertical crosshair at the hovered x on line charts.
+  var crosshair = {
+    id: "crosshair",
+    afterDatasetsDraw: function (chart, args, opts) {
+      if (!opts || !opts.enabled) return;
+      var active = chart.tooltip && chart.tooltip.getActiveElements();
+      if (!active || !active.length) return;
+      var x = active[0].element.x, area = chart.chartArea, ctx = chart.ctx;
+      ctx.save(); ctx.strokeStyle = opts.color; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(x, area.top); ctx.lineTo(x, area.bottom); ctx.stroke(); ctx.restore();
+    }
+  };
+
+  // Label the last point of selected line datasets (selective direct labels).
+  var endLabels = {
+    id: "endLabels",
+    afterDatasetsDraw: function (chart, args, opts) {
+      if (!opts || !opts.enabled) return;
+      var ctx = chart.ctx;
+      ctx.save();
+      ctx.font = "600 12px system-ui, -apple-system, 'Segoe UI', sans-serif";
+      ctx.fillStyle = opts.color; ctx.textAlign = "right"; ctx.textBaseline = "bottom";
+      var placed = [];
+      chart.data.datasets.forEach(function (ds, di) {
+        if (!ds.endLabel) return;
+        var meta = chart.getDatasetMeta(di);
+        if (meta.hidden || !meta.data.length) return;
+        var pt = meta.data[meta.data.length - 1];
+        // Converging lines: don't stack labels; the legend and tooltip carry the rest.
+        if (placed.some(function (y) { return Math.abs(y - pt.y) < 16; })) return;
+        placed.push(pt.y);
+        ctx.fillText(ds.endLabel, pt.x - 6, pt.y - 6);
+      });
+      ctx.restore();
+    }
+  };
+
+  var charts = [];
+
+  function theme() {
+    return {
+      surface: css("--surface-1"), text: css("--text-secondary"), primary: css("--text-primary"),
+      muted: css("--text-muted"), grid: css("--grid"), axis: css("--axis"), deemph: css("--deemph"),
+      s: [1, 2, 3, 4, 5, 6].map(function (i) { return css("--series-" + i); }),
+      dark: matchMedia("(prefers-color-scheme: dark)").matches && document.documentElement.dataset.theme !== "light"
+            || document.documentElement.dataset.theme === "dark"
+    };
+  }
+
+  function rgba(hex, alpha) {
+    var h = hex.replace("#", "");
+    return "rgba(" + parseInt(h.substr(0, 2), 16) + "," + parseInt(h.substr(2, 2), 16) + "," +
+      parseInt(h.substr(4, 2), 16) + "," + alpha + ")";
+  }
+
+  function baseOptions(t, extra) {
+    var o = {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      layout: { padding: { top: 8, right: 8 } },
+      plugins: {
+        legend: { display: false, labels: { color: t.text, usePointStyle: true, pointStyle: "rectRounded",
+                                             boxWidth: 10, boxHeight: 10, padding: 14,
+                                             font: { size: 12 } } },
+        tooltip: {
+          backgroundColor: t.surface, titleColor: t.primary, bodyColor: t.text, borderColor: t.axis,
+          borderWidth: 1, padding: 10, cornerRadius: 8, boxPadding: 4, usePointStyle: true,
+          callbacks: { label: function (c) {
+            var v = c.parsed[c.chart.options.indexAxis === "y" ? "x" : "y"];
+            return " " + (c.dataset.label ? c.dataset.label + ": " : "") + money(v);
+          } }
+        }
+      },
+      scales: {}
+    };
+    return Object.assign(o, extra || {});
+  }
+
+  function moneyAxis(t, extra) {
+    return Object.assign({
+      grid: { color: t.grid, drawTicks: false }, border: { color: t.axis },
+      ticks: { color: t.muted, padding: 6, font: { size: 11 }, callback: function (v) { return money(v, true); } }
+    }, extra || {});
+  }
+  function catAxis(t, extra) {
+    return Object.assign({ grid: { display: false }, border: { color: t.axis },
+                           ticks: { color: t.text, font: { size: 12 } } }, extra || {});
+  }
+  function bar(color, extra) {
+    return Object.assign({ backgroundColor: color, hoverBackgroundColor: color, borderRadius: 4,
+                           borderSkipped: "start", maxBarThickness: 24, categoryPercentage: 0.7,
+                           barPercentage: 0.9 }, extra || {});
+  }
+
+  function add(id, config) {
+    var el = document.getElementById(id);
+    if (el) charts.push(new Chart(el, config));
+  }
+
+  function build() {
+    charts.forEach(function (c) { c.destroy(); });
+    charts = [];
+    var t = theme();
+    Chart.defaults.font.family = "system-ui, -apple-system, 'Segoe UI', sans-serif";
+    Chart.defaults.color = t.text;
+
+    // Assets and debts by category
+    if (DATA.categories) {
+      var nz = function (arr) { return arr.map(function (v) { return v ? v : null; }); };
+      var cd = DATA.categories, sets = [bar(t.s[0], { label: "Assets", data: nz(cd.assets) })];
+      if (cd.has_debts) sets.push(bar(t.s[1], { label: "Debts", data: nz(cd.debts) }));
+      add("chart-categories", {
+        type: "bar", data: { labels: cd.labels, datasets: sets },
+        options: baseOptions(t, {
+          indexAxis: "y", skipNull: true,
+          layout: { padding: { right: 96 } },
+          plugins: Object.assign(baseOptions(t).plugins, {
+            legend: Object.assign(baseOptions(t).plugins.legend, { display: cd.has_debts, position: "top", align: "start" }),
+            tipLabels: { enabled: true, color: t.text, skipZero: true, suffixes: [cd.asset_pcts] }
+          }),
+          scales: { x: moneyAxis(t, { beginAtZero: true }), y: catAxis(t) }
+        }),
+        plugins: [tipLabels]
+      });
+    }
+
+    // History
+    if (DATA.history) {
+      var hx0 = DATA.history[0].x, hx1 = DATA.history[DATA.history.length - 1].x, span = hx1 - hx0;
+      var step = span > 6 ? 1 : span > 2.5 ? 0.5 : 0.25;
+      var MONTHS = ["Jan", "Apr", "Jul", "Oct"];
+      add("chart-history", {
+        type: "line",
+        data: { datasets: [{ label: "Net worth", data: DATA.history.map(function (p) { return { x: p.x, y: p.y, date: p.date }; }),
+                             borderColor: t.s[0], backgroundColor: rgba(t.s[0], 0.10), fill: "origin", borderWidth: 2,
+                             pointRadius: DATA.history.length > 30 ? 0 : 3, pointHoverRadius: 5,
+                             pointBackgroundColor: t.s[0], pointBorderColor: t.surface, pointBorderWidth: 2,
+                             tension: 0, endLabel: money(DATA.history[DATA.history.length - 1].y, true) }] },
+        options: baseOptions(t, {
+          interaction: { mode: "nearest", axis: "x", intersect: false },
+          plugins: Object.assign(baseOptions(t).plugins, {
+            crosshair: { enabled: true, color: t.axis }, endLabels: { enabled: true, color: t.primary },
+            tooltip: Object.assign(baseOptions(t).plugins.tooltip, { callbacks: {
+              title: function (items) { return items[0].raw.date; },
+              label: function (c) { return " Net worth: " + money(c.parsed.y); } } })
+          }),
+          scales: {
+            x: { type: "linear", grid: { display: false }, border: { color: t.axis },
+                 min: Math.floor(hx0 / step) * step, max: Math.ceil(hx1 / step) * step,
+                 ticks: { color: t.muted, stepSize: step, autoSkip: true, maxRotation: 0, font: { size: 11 },
+                          callback: function (v) {
+                            var y = Math.floor(v + 1e-6), q = Math.round((v - y) * 4);
+                            return step === 1 ? String(y) : MONTHS[q] + " " + y; } } },
+            y: moneyAxis(t)
+          }
+        }),
+        plugins: [crosshair, endLabels]
+      });
+    }
+
+    // Projection
+    if (DATA.projection) {
+      var pj = DATA.projection;
+      function pts(arr) { return arr.map(function (v, i) { return { x: pj.x[i], y: v, i: i }; }); }
+      var sets2 = [
+        { label: "Optimistic", data: pts(pj.optimistic), borderWidth: 0, pointRadius: 0, fill: 1,
+          backgroundColor: rgba(t.s[0], 0.12), borderColor: "transparent", order: 3 },
+        { label: "Conservative", data: pts(pj.conservative), borderWidth: 0, pointRadius: 0, fill: false,
+          borderColor: "transparent", backgroundColor: rgba(t.s[0], 0.12), order: 3 },
+        { label: "Expected (dashed)", data: pts(pj.expected), borderColor: t.s[0], borderWidth: 2, borderDash: [6, 4],
+          pointRadius: 0, pointHoverRadius: 5, pointBackgroundColor: t.s[0], pointBorderColor: t.surface,
+          pointBorderWidth: 2, fill: false, order: 1, endLabel: money(pj.expected[pj.expected.length - 1], true) }
+      ];
+      if (pj.default) {
+        sets2.push({ label: "Default assumptions", data: pts(pj.default), borderColor: t.s[1], borderWidth: 2,
+                     borderDash: [6, 4], pointRadius: 0, pointHoverRadius: 5, fill: false, order: 2,
+                     endLabel: money(pj.default[pj.default.length - 1], true) });
+      }
+      if (pj.history.length) {
+        sets2.push({ label: "History", data: pj.history.map(function (p) { return { x: p.x, y: p.y, date: p.date }; }),
+                     borderColor: t.s[0], borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, fill: false, order: 0 });
+      }
+      add("chart-projection", {
+        type: "line", data: { datasets: sets2 },
+        options: baseOptions(t, {
+          interaction: { mode: "nearest", axis: "x", intersect: false },
+          plugins: Object.assign(baseOptions(t).plugins, {
+            legend: Object.assign(baseOptions(t).plugins.legend, {
+              display: true, position: "top", align: "start",
+              labels: Object.assign(baseOptions(t).plugins.legend.labels, {
+                filter: function (item) { return item.text !== "Conservative"; },
+                generateLabels: function (chart) {
+                  var items = Chart.defaults.plugins.legend.labels.generateLabels(chart);
+                  items.forEach(function (it) {
+                    if (it.text === "Optimistic") { it.text = "Range (conservative–optimistic)"; it.fillStyle = rgba(t.s[0], 0.25); it.strokeStyle = "transparent"; }
+                    else if (it.text === "Expected (dashed)" || it.text === "History") { it.fillStyle = t.s[0]; }
+                    else if (it.text === "Default assumptions") { it.fillStyle = t.s[1]; }
+                  });
+                  return items;
+                } })
+            }),
+            crosshair: { enabled: true, color: t.axis }, endLabels: { enabled: true, color: t.primary },
+            tooltip: Object.assign(baseOptions(t).plugins.tooltip, {
+              filter: function (item) { return item.dataset.label !== "History" || item.raw.date; },
+              callbacks: {
+                title: function (items) {
+                  var raw = items[0].raw;
+                  if (raw.date) return raw.date;
+                  var ages = pj.ages[String(raw.i)];
+                  return (pj.start_year + raw.i) + (ages ? " · age " + ages.join(" & ") : "");
+                },
+                label: function (c) { return " " + c.dataset.label + ": " + money(c.parsed.y); }
+              } })
+          }),
+          scales: {
+            x: { type: "linear", grid: { display: false }, border: { color: t.axis },
+                 min: pj.history.length ? pj.history[0].x : pj.x[0], max: pj.x[pj.x.length - 1],
+                 ticks: { color: t.muted, stepSize: 2, font: { size: 11 }, callback: function (v) { return yearLabel(v); } } },
+            y: moneyAxis(t)
+          }
+        }),
+        plugins: [crosshair, endLabels]
+      });
+    }
+
+    // Age ladder: emphasis (you in blue, benchmarks gray)
+    if (DATA.age_ladder) {
+      var al = DATA.age_ladder.bars;
+      add("chart-age-ladder", {
+        type: "bar",
+        data: { labels: al.map(function (b) { return b.label; }),
+                datasets: [bar(al.map(function (b) { return b.you ? t.s[0] : t.deemph; }),
+                               { label: "", data: al.map(function (b) { return b.value; }) })] },
+        options: baseOptions(t, {
+          indexAxis: "y", layout: { padding: { right: 60 } },
+          plugins: Object.assign(baseOptions(t).plugins, { tipLabels: { enabled: true, color: t.text } }),
+          scales: { x: moneyAxis(t), y: catAxis(t, { ticks: { color: t.text, font: function (c) {
+            return { size: 12, weight: al[c.index] && al[c.index].you ? "600" : "400" }; } } }) }
+        }),
+        plugins: [tipLabels]
+      });
+    }
+
+    // Median by age
+    if (DATA.age_medians) {
+      var am = DATA.age_medians;
+      add("chart-age-medians", {
+        type: "bar",
+        data: { labels: am.bars.map(function (b) { return b.short; }),
+                datasets: [bar(am.bars.map(function (b) { return b.you ? t.s[0] : t.deemph; }),
+                               { label: "Median", data: am.bars.map(function (b) { return b.value; }) })] },
+        options: baseOptions(t, {
+          layout: { padding: { top: 20 } },
+          plugins: Object.assign(baseOptions(t).plugins, {
+            tipLabels: { enabled: true, color: t.text },
+            refLine: { value: am.you, axis: "y", color: t.primary, textColor: t.primary, label: "You: " + money(am.you, true) }
+          }),
+          scales: { x: catAxis(t, { ticks: { color: t.text, maxRotation: 0, font: { size: 12 } } }), y: moneyAxis(t, { beginAtZero: true,
+            suggestedMax: Math.max.apply(null, am.bars.map(function (b) { return b.value; }).concat([am.you])) * 1.12 }) }
+        }),
+        plugins: [tipLabels, refLine]
+      });
+    }
+
+    // State
+    if (DATA.state) {
+      var sb = DATA.state.bars;
+      add("chart-state", {
+        type: "bar",
+        data: { labels: sb.map(function (b) { return b.lines || b.label; }),
+                datasets: [bar(sb.map(function (b) { return b.you ? t.s[0] : t.deemph; }),
+                               { label: "", data: sb.map(function (b) { return b.value; }) })] },
+        options: baseOptions(t, {
+          indexAxis: "y", layout: { padding: { right: 60 } },
+          plugins: Object.assign(baseOptions(t).plugins, { tipLabels: { enabled: true, color: t.text } }),
+          scales: { x: moneyAxis(t, { beginAtZero: true }), y: catAxis(t) }
+        }),
+        plugins: [tipLabels]
+      });
+    }
+
+    // Income vs change in net worth (one axis, both in dollars)
+    if (DATA.income) {
+      var ic = DATA.income;
+      add("chart-income", {
+        type: "bar",
+        data: { labels: ic.labels, datasets: [
+          bar(t.s[0], { label: "Income", data: ic.income }),
+          bar(t.s[1], { label: "Change in net worth", data: ic.change })
+        ] },
+        options: baseOptions(t, {
+          plugins: Object.assign(baseOptions(t).plugins, {
+            legend: Object.assign(baseOptions(t).plugins.legend, { display: true, position: "top", align: "start" })
+          }),
+          scales: { x: catAxis(t), y: moneyAxis(t) }
+        })
+      });
+    }
+
+    // Couples: who owns what
+    if (DATA.owners) {
+      var ow = DATA.owners;
+      add("chart-owners", {
+        type: "bar",
+        data: { labels: ow.labels, datasets: [
+          bar(t.s[0], { label: "Assets", data: ow.assets }),
+          bar(t.s[1], { label: "Debts", data: ow.debts })
+        ] },
+        options: baseOptions(t, {
+          indexAxis: "y", layout: { padding: { right: 56 } },
+          plugins: Object.assign(baseOptions(t).plugins, {
+            legend: Object.assign(baseOptions(t).plugins.legend, { display: true, position: "top", align: "start" }),
+            tipLabels: { enabled: true, color: t.text, skipZero: true }
+          }),
+          scales: { x: moneyAxis(t, { beginAtZero: true }), y: catAxis(t) }
+        }),
+        plugins: [tipLabels]
+      });
+    }
+  }
+
+  build();
+  var mq = matchMedia("(prefers-color-scheme: dark)");
+  (mq.addEventListener ? mq.addEventListener.bind(mq, "change") : mq.addListener.bind(mq))(build);
+  new MutationObserver(build).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+})();
+</script>
+</body>
+</html>
